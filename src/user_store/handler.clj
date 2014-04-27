@@ -13,6 +13,7 @@
 ;; TODO: extract
 (defn create-user
   [name email password]
+  (wcar* (car/hmset "user:1" "name" name "email" email "password" password))
   (response {:ok {:status 201 :body (str "Successfully created " name)}}))
 
 ;; Routes
