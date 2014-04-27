@@ -1,7 +1,7 @@
 (ns user-store.handler
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
-            [compojure.core :refer [GET defroutes]]
+            [compojure.core :refer [GET POST defroutes]]
             [ring.util.response :refer [resource-response response]]
             [ring.middleware.json :as middleware]
             [taoensso.carmine :as car :refer (wcar)]))
@@ -14,6 +14,7 @@
 (defroutes app-routes
   (GET  "/" [] (response {:api_root "true"}))
   (GET  "/users" [] (response [{:name "User 1"} {:name "User 2"}]))
+  (POST "/users" [name] (response {:ok {:status 201 :body (str "Created " name)}}))
   (route/resources "/")
   (route/not-found (response {:error {:status 404 :body "Not found"}})))
 
