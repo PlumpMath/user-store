@@ -3,8 +3,14 @@
             [compojure.route :as route]
             [compojure.core :refer [GET defroutes]]
             [ring.util.response :refer [resource-response response]]
-            [ring.middleware.json :as middleware]))
+            [ring.middleware.json :as middleware]
+            [taoensso.carmine :as car :refer (wcar)]))
 
+;; Redis connection
+(def redis-server-conn {:pool {} :spec {:host "127.0.0.1" :port 6379}})
+(defmacro wcar* [& body] `(car/wcar redis-server-conn ~@body))
+
+;; Routes
 (defroutes app-routes
   (GET  "/" [] (response {:api_root "true"}))
   (GET  "/users" [] (response [{:name "User 1"} {:name "User 2"}]))
